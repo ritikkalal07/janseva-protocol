@@ -1,0 +1,157 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * JanSeva Protocol — Editorial civic design system.
+ * Tones: serious, trustworthy, modern. Inspired by public-interest journalism + fintech.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-light: var(--primary-light);
+  --color-primary-dark: var(--primary-dark);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-surface: var(--surface);
+
+  --font-display: "DM Serif Display", Georgia, serif;
+  --font-body: "Inter", system-ui, sans-serif;
+
+  --shadow-card: 0 1px 2px oklch(0 0 0 / 0.04), 0 4px 16px oklch(0 0 0 / 0.04);
+  --shadow-card-hover: 0 2px 4px oklch(0 0 0 / 0.05), 0 12px 32px oklch(0 0 0 / 0.08);
+}
+
+:root {
+  --radius: 0.625rem;
+  /* Editorial cream background */
+  --background: oklch(0.985 0.005 90);
+  --surface: oklch(1 0 0);
+  --foreground: oklch(0.17 0.015 260);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.17 0.015 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.17 0.015 260);
+
+  /* Deep teal primary #0F6E56 */
+  --primary: oklch(0.48 0.09 170);
+  --primary-foreground: oklch(0.99 0 0);
+  --primary-light: oklch(0.96 0.03 170);
+  --primary-dark: oklch(0.36 0.08 170);
+
+  --secondary: oklch(0.96 0.01 90);
+  --secondary-foreground: oklch(0.2 0.015 260);
+  --muted: oklch(0.96 0.005 90);
+  --muted-foreground: oklch(0.5 0.015 260);
+
+  /* Amber accent #F59E0B */
+  --accent: oklch(0.78 0.16 75);
+  --accent-foreground: oklch(0.25 0.05 60);
+
+  --destructive: oklch(0.58 0.22 27);
+  --destructive-foreground: oklch(0.99 0 0);
+  --success: oklch(0.62 0.17 145);
+
+  --border: oklch(0.92 0.005 260);
+  --input: oklch(0.92 0.005 260);
+  --ring: oklch(0.48 0.09 170);
+}
+
+.dark {
+  --background: oklch(0.17 0.015 260);
+  --surface: oklch(0.22 0.02 260);
+  --foreground: oklch(0.98 0.005 90);
+  --card: oklch(0.22 0.02 260);
+  --card-foreground: oklch(0.98 0.005 90);
+  --popover: oklch(0.22 0.02 260);
+  --popover-foreground: oklch(0.98 0.005 90);
+  --primary: oklch(0.7 0.12 170);
+  --primary-foreground: oklch(0.17 0.015 260);
+  --primary-light: oklch(0.28 0.05 170);
+  --primary-dark: oklch(0.55 0.1 170);
+  --secondary: oklch(0.28 0.02 260);
+  --secondary-foreground: oklch(0.98 0.005 90);
+  --muted: oklch(0.28 0.02 260);
+  --muted-foreground: oklch(0.7 0.01 260);
+  --accent: oklch(0.78 0.16 75);
+  --accent-foreground: oklch(0.17 0.015 260);
+  --destructive: oklch(0.7 0.19 22);
+  --destructive-foreground: oklch(0.98 0.005 90);
+  --success: oklch(0.7 0.17 145);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.7 0.12 170);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    font-family: var(--font-body);
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+}
+
+@utility card-editorial {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+@utility pulse-dot {
+  animation: pulse 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes typing {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+
+.typing-dot {
+  animation: typing 1.2s infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.15s; }
+.typing-dot:nth-child(3) { animation-delay: 0.3s; }
