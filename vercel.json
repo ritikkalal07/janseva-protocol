@@ -1,7 +1,5 @@
 {
-  "version": 3,
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist/client",
+  "version": 2,
   "builds": [
     {
       "src": "src/server.ts",
