@@ -10,12 +10,12 @@ export const CATEGORIES = [
 export type Category = (typeof CATEGORIES)[number];
 
 export const CATEGORY_CONFIG: Record<string, { color: string; bg: string; label: string }> = {
-  "RTI Filing":         { color: "#92400E", bg: "#FEF3C7", label: "RTI Filing" },
-  "Legal Help":         { color: "#1E40AF", bg: "#DBEAFE", label: "Legal Help" },
-  "Corruption Report":  { color: "#991B1B", bg: "#FEE2E2", label: "Corruption" },
-  "Welfare Benefit":    { color: "#065F46", bg: "#D1FAE5", label: "Welfare" },
+  "RTI Filing": { color: "#92400E", bg: "#FEF3C7", label: "RTI Filing" },
+  "Legal Help": { color: "#1E40AF", bg: "#DBEAFE", label: "Legal Help" },
+  "Corruption Report": { color: "#991B1B", bg: "#FEE2E2", label: "Corruption" },
+  "Welfare Benefit": { color: "#065F46", bg: "#D1FAE5", label: "Welfare" },
   "Government Service": { color: "#4C1D95", bg: "#EDE9FE", label: "Gov Service" },
-  "Other":              { color: "#374151", bg: "#F3F4F6", label: "Other" },
+  Other: { color: "#374151", bg: "#F3F4F6", label: "Other" },
 };
 
 export const LANGUAGES = [
@@ -44,4 +44,3 @@ export const LANGUAGES = [
   { code: "vi-VN", label: "Tiếng Việt (Vietnamese)" },
   { code: "it-IT", label: "Italiano (Italian)" },
 ];
-

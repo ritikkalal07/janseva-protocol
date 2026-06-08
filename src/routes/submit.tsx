@@ -73,7 +73,9 @@ function Submit() {
           "SHA-256",
           enc.encode(`${data.id}-${data.category}-${data.created_at}`),
         );
-        const hash = Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, "0")).join("");
+        const hash = Array.from(new Uint8Array(buf))
+          .map((b) => b.toString(16).padStart(2, "0"))
+          .join("");
         await supabase.from("submissions").update({ blockchain_tx_hash: hash }).eq("id", data.id);
       } catch (e) {
         console.warn("hash failed", e);
@@ -117,7 +119,8 @@ function Submit() {
             </div>
             <h1 className="font-display text-3xl text-foreground">Recorded permanently</h1>
             <p className="mt-3 text-muted-foreground">
-              Your submission is now public and cannot be edited or deleted by anyone — including us.
+              Your submission is now public and cannot be edited or deleted by anyone — including
+              us.
             </p>
             <div className="mt-6 font-mono text-xs text-muted-foreground bg-muted py-2 px-3 rounded inline-block">
               ID #{submitted.id.slice(0, 8)}
@@ -132,7 +135,10 @@ function Submit() {
               <button
                 onClick={() => {
                   setSubmitted(null);
-                  setCategory(""); setDescription(""); setCountry(""); setState("");
+                  setCategory("");
+                  setDescription("");
+                  setCountry("");
+                  setState("");
                 }}
                 className="text-sm text-muted-foreground hover:text-foreground"
               >
@@ -165,7 +171,11 @@ function Submit() {
                 className="w-full bg-background border border-input rounded-md px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
               >
                 <option value="">Choose…</option>
-                {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+                {CATEGORIES.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
               </select>
             </Field>
 
@@ -203,7 +213,17 @@ function Submit() {
                   className="w-full bg-background border border-input rounded-md px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                 />
                 <datalist id="countries">
-                  {["India", "Pakistan", "Bangladesh", "Nepal", "Sri Lanka", "Nigeria", "Kenya", "Ghana", "South Africa"].map((c) => (
+                  {[
+                    "India",
+                    "Pakistan",
+                    "Bangladesh",
+                    "Nepal",
+                    "Sri Lanka",
+                    "Nigeria",
+                    "Kenya",
+                    "Ghana",
+                    "South Africa",
+                  ].map((c) => (
                     <option key={c} value={c} />
                   ))}
                 </datalist>
@@ -224,7 +244,11 @@ function Submit() {
                 onChange={(e) => setLanguage(e.target.value)}
                 className="w-full bg-background border border-input rounded-md px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
               >
-                {LANGUAGES.map((l) => <option key={l.code} value={l.code}>{l.label}</option>)}
+                {LANGUAGES.map((l) => (
+                  <option key={l.code} value={l.code}>
+                    {l.label}
+                  </option>
+                ))}
               </select>
             </Field>
 
@@ -258,7 +282,13 @@ function Submit() {
               disabled={submitting}
               className="w-full bg-primary text-primary-foreground font-medium py-3 rounded-md hover:bg-primary-dark transition-colors disabled:opacity-60 inline-flex items-center justify-center gap-2"
             >
-              {submitting ? <><Loader2 className="animate-spin" size={16} /> Recording…</> : "Submit publicly"}
+              {submitting ? (
+                <>
+                  <Loader2 className="animate-spin" size={16} /> Recording…
+                </>
+              ) : (
+                "Submit publicly"
+              )}
             </button>
             <p className="text-xs text-muted-foreground text-center">
               Once submitted, your entry cannot be edited or deleted.
@@ -272,8 +302,18 @@ function Submit() {
 }
 
 function Field({
-  label, required, error, hint, children,
-}: { label: string; required?: boolean; error?: string; hint?: string; children: React.ReactNode }) {
+  label,
+  required,
+  error,
+  hint,
+  children,
+}: {
+  label: string;
+  required?: boolean;
+  error?: string;
+  hint?: string;
+  children: React.ReactNode;
+}) {
   return (
     <label className="block">
       <div className="flex items-center justify-between mb-1.5">

@@ -42,12 +42,13 @@ function Home() {
             Live · capture-resistant civic infrastructure
           </div>
           <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl text-foreground leading-[1.05]">
-            Justice for everyone.<br />
+            Justice for everyone.
+            <br />
             <span className="text-primary">Owned by no one.</span>
           </h1>
           <p className="mt-6 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            JanSeva Protocol is an AI-powered civic platform. No government, corporation,
-            or individual controls it. Every action is transparent and permanent.
+            JanSeva Protocol is an AI-powered civic platform. No government, corporation, or
+            individual controls it. Every action is transparent and permanent.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
@@ -66,9 +67,15 @@ function Home() {
           </div>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
-            <span className="inline-flex items-center gap-1.5"><Lock size={13} /> Anonymous by default</span>
-            <span className="inline-flex items-center gap-1.5"><Link2 size={13} /> Blockchain verified</span>
-            <span className="inline-flex items-center gap-1.5"><Globe size={13} /> 47 languages supported</span>
+            <span className="inline-flex items-center gap-1.5">
+              <Lock size={13} /> Anonymous by default
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <Link2 size={13} /> Blockchain verified
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <Globe size={13} /> 47 languages supported
+            </span>
           </div>
         </div>
 
@@ -83,7 +90,9 @@ function Home() {
       {/* FEATURES */}
       <section className="px-4 sm:px-6 py-16 bg-surface border-y border-border">
         <div className="max-w-6xl mx-auto">
-          <h2 className="font-display text-3xl sm:text-4xl text-center mb-3">What you can do here</h2>
+          <h2 className="font-display text-3xl sm:text-4xl text-center mb-3">
+            What you can do here
+          </h2>
           <p className="text-center text-muted-foreground mb-12 max-w-xl mx-auto">
             Three core tools, designed to be impossible to capture or shut down.
           </p>
@@ -119,8 +128,16 @@ function Home() {
           <h2 className="font-display text-3xl sm:text-4xl text-center mb-12">How it works</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { n: "01", t: "Submit your problem", d: "Anonymous by default. Voice or text. Any language." },
-              { n: "02", t: "AI agent responds", d: "Concrete steps, resources, escalation paths." },
+              {
+                n: "01",
+                t: "Submit your problem",
+                d: "Anonymous by default. Voice or text. Any language.",
+              },
+              {
+                n: "02",
+                t: "AI agent responds",
+                d: "Concrete steps, resources, escalation paths.",
+              },
               { n: "03", t: "Logged permanently", d: "Hashed and written to the public ledger." },
               { n: "04", t: "Community review", d: "Stewards and the public verify outcomes." },
             ].map((s) => (
@@ -167,14 +184,29 @@ function Stat({ value, label }: { value: string; label: string }) {
 }
 
 function Feature({
-  icon, title, body, to, cta,
-}: { icon: React.ReactNode; title: string; body: string; to: "/chat" | "/audit" | "/submit"; cta: string }) {
+  icon,
+  title,
+  body,
+  to,
+  cta,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  body: string;
+  to: "/chat" | "/audit" | "/submit";
+  cta: string;
+}) {
   return (
     <div className="card-editorial p-6 flex flex-col">
-      <div className="w-11 h-11 rounded-md bg-primary-light grid place-items-center mb-4">{icon}</div>
+      <div className="w-11 h-11 rounded-md bg-primary-light grid place-items-center mb-4">
+        {icon}
+      </div>
       <h3 className="font-display text-xl text-foreground">{title}</h3>
       <p className="mt-2 text-sm text-muted-foreground leading-relaxed flex-1">{body}</p>
-      <Link to={to} className="mt-4 text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
+      <Link
+        to={to}
+        className="mt-4 text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all"
+      >
         {cta} <ArrowRight size={14} />
       </Link>
     </div>

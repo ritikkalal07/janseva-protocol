@@ -67,7 +67,10 @@ export function Navbar() {
                 to={l.to}
                 onClick={() => setOpen(false)}
                 className="px-3 py-2.5 text-sm text-foreground hover:bg-muted rounded-md"
-                activeProps={{ className: "px-3 py-2.5 text-sm text-primary font-medium bg-primary-light rounded-md" }}
+                activeProps={{
+                  className:
+                    "px-3 py-2.5 text-sm text-primary font-medium bg-primary-light rounded-md",
+                }}
                 activeOptions={{ exact: l.to === "/" }}
               >
                 {l.label}

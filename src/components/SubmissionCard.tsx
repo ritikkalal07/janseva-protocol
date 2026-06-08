@@ -27,14 +27,20 @@ export function SubmissionCard({ s }: { s: Submission }) {
     status === "answered"
       ? { label: "AI Responded", className: "text-success bg-success/10", icon: "✅" }
       : status === "escalated"
-        ? { label: "Escalated to Human", className: "text-destructive bg-destructive/10", icon: "🔺" }
+        ? {
+            label: "Escalated to Human",
+            className: "text-destructive bg-destructive/10",
+            icon: "🔺",
+          }
         : { label: "Pending", className: "text-muted-foreground bg-muted", icon: "⏳" };
 
   return (
     <article className="card-editorial p-5 hover:shadow-[var(--shadow-card-hover)]">
       <div className="flex flex-wrap items-center gap-2 mb-3">
         <CategoryBadge category={s.category ?? "Other"} />
-        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs ${aiStatus.className}`}>
+        <span
+          className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs ${aiStatus.className}`}
+        >
           <span>{aiStatus.icon}</span> {aiStatus.label}
         </span>
         {(s.blockchain_tx_hash ?? null) ? (
@@ -60,14 +66,23 @@ export function SubmissionCard({ s }: { s: Submission }) {
           onClick={() => setExpanded((e) => !e)}
           className="mt-2 text-xs text-primary font-medium inline-flex items-center gap-1"
         >
-          {expanded ? <><ChevronUp size={12} /> Show less</> : <><ChevronDown size={12} /> Read more</>}
+          {expanded ? (
+            <>
+              <ChevronUp size={12} /> Show less
+            </>
+          ) : (
+            <>
+              <ChevronDown size={12} /> Read more
+            </>
+          )}
         </button>
       )}
 
       {s.ai_response && (
         <details className="mt-3 group">
           <summary className="cursor-pointer text-xs font-medium text-primary inline-flex items-center gap-1 select-none">
-            <ChevronDown size={12} className="group-open:rotate-180 transition-transform" /> AI guidance
+            <ChevronDown size={12} className="group-open:rotate-180 transition-transform" /> AI
+            guidance
           </summary>
           <div className="mt-2 p-3 bg-primary-light/40 border border-primary-light rounded-md text-sm text-foreground whitespace-pre-wrap">
             {s.ai_response}
@@ -77,11 +92,16 @@ export function SubmissionCard({ s }: { s: Submission }) {
 
       <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
         <span className="inline-flex items-center gap-1">
-          <Clock size={12} /> {formatDistanceToNow(new Date(s.created_at ?? new Date().toISOString()), { addSuffix: true })}
+          <Clock size={12} />{" "}
+          {formatDistanceToNow(new Date(s.created_at ?? new Date().toISOString()), {
+            addSuffix: true,
+          })}
         </span>
         <span className="inline-flex items-center gap-1">
           <MapPin size={12} />
-          {(s.country ?? null) || (s.state ?? null) ? [s.state, s.country].filter(Boolean).join(", ") : "Location not shared"}
+          {(s.country ?? null) || (s.state ?? null)
+            ? [s.state, s.country].filter(Boolean).join(", ")
+            : "Location not shared"}
         </span>
         <span className="font-mono text-[10px]">#{(s.id ?? "").slice(0, 8)}</span>
       </div>

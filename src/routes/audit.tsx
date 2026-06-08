@@ -16,7 +16,8 @@ export const Route = createFileRoute("/audit")({
       { title: "Public Audit Log — JanSeva Protocol" },
       {
         name: "description",
-        content: "Every civic submission is permanent and verifiable. Browse the live public ledger.",
+        content:
+          "Every civic submission is permanent and verifiable. Browse the live public ledger.",
       },
       { property: "og:title", content: "Public Audit Log — JanSeva Protocol" },
       { property: "og:description", content: "Live, tamper-proof civic ledger." },
@@ -50,7 +51,9 @@ function Audit() {
       setTotal(count ?? 0);
       setLoading(false);
     });
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [page, cat, sort]);
 
   // Realtime: prepend new submissions when on page 0 with no filter
@@ -101,7 +104,10 @@ function Audit() {
           {/* Filters */}
           <div className="mt-6 card-editorial p-3 flex flex-wrap gap-2 items-center">
             <div className="relative flex-1 min-w-[180px]">
-              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              <Search
+                size={14}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+              />
               <input
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
@@ -111,15 +117,25 @@ function Audit() {
             </div>
             <select
               value={cat}
-              onChange={(e) => { setCat(e.target.value); setPage(0); }}
+              onChange={(e) => {
+                setCat(e.target.value);
+                setPage(0);
+              }}
               className="bg-background border border-input rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
             >
               <option value="">All categories</option>
-              {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+              {CATEGORIES.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
             </select>
             <select
               value={sort}
-              onChange={(e) => { setSort(e.target.value as "new" | "old"); setPage(0); }}
+              onChange={(e) => {
+                setSort(e.target.value as "new" | "old");
+                setPage(0);
+              }}
               className="bg-background border border-input rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
             >
               <option value="new">Newest first</option>

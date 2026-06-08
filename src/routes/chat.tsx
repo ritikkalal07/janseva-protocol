@@ -181,9 +181,18 @@ function Chat() {
     try {
       const res = await civicAssist({ data: { message: text, history, language } });
       if (!res.ok) {
+        const shouldFallback =
+          res.error.includes("Missing API key") ||
+          res.error.includes("service unavailable") ||
+          res.error.includes("Rate limit");
         toast.error(res.error);
         setAiAvailable(false);
-        if (res.error.includes("Missing API key") || res.error.includes("service unavailable")) {
+        if (shouldFallback) {
+          setHelpMode("library");
+          setStatusMessage(
+            "AI is offline or unavailable. Switched to the free unlimited Offline Library so you can continue getting help.",
+          );
+        } else {
           setStatusMessage(
             "AI is currently offline. Switch to Offline Library for free guidance and keep trying the AI assistant later.",
           );
@@ -216,8 +225,9 @@ function Chat() {
       const msg = e instanceof Error ? e.message : String(e);
       console.error("civicAssist error:", e);
       setAiAvailable(false);
+      setHelpMode("library");
       setStatusMessage(
-        "Network or AI gateway error occurred. Try the Offline Library if the AI is unavailable.",
+        "Network or AI gateway error occurred. Switched to Offline Library for uninterrupted free help.",
       );
       toast.error(msg || "Network error");
       setMessages((m) => [
