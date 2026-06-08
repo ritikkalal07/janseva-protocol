@@ -16,6 +16,10 @@ dist-ssr
 .nitro
 *.local
 
+# Cypress test artifacts
+cypress/screenshots
+cypress/videos
+
 # Wrangler / Cloudflare
 .wrangler/
 .dev.vars

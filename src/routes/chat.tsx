@@ -116,10 +116,35 @@ function Chat() {
   const [aiAvailable, setAiAvailable] = useState(true);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const endRef = useRef<HTMLDivElement | null>(null);
+  const STORAGE_KEY = "janseva_chat_messages_v1";
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, thinking]);
+
+  // Load saved messages from localStorage (free offline persistence)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as Msg[];
+        if (Array.isArray(parsed)) setMessages(parsed);
+      }
+    } catch (e) {
+      /* ignore parse errors */
+    }
+  }, []);
+
+  // Persist messages locally so the Offline Library becomes a free, always-on experience
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+    } catch (e) {
+      /* ignore */
+    }
+  }, [messages]);
 
   const getLibraryResponse = (query: string): CivicResponse => {
     const normalized = query.toLowerCase();
@@ -243,7 +268,7 @@ function Chat() {
     <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
       <main className="flex-1 px-4 sm:px-6 py-6">
-        <div className="max-w-3xl mx-auto flex flex-col h-[calc(100vh-9rem)]">
+          <div data-help-mode={helpMode} className="max-w-3xl mx-auto flex flex-col h-[calc(100vh-9rem)]">
           {/* Header */}
           <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
             <div>
@@ -268,6 +293,7 @@ function Chat() {
                 </button>
                 <button
                   type="button"
+                  data-cy="offline-library-btn"
                   onClick={() => setHelpMode("library")}
                   className={`rounded-full border px-3 py-1 ${
                     helpMode === "library"
@@ -276,6 +302,11 @@ function Chat() {
                   }`}
                 >
                   Offline Library
+                  {helpMode === "library" && (
+                    <span className="ml-2 inline-block text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium">
+                      Free — unlimited
+                    </span>
+                  )}
                 </button>
                 <button
                   type="button"
@@ -284,7 +315,37 @@ function Chat() {
                 >
                   Clear conversation
                 </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (typeof window === "undefined") return;
+                    try {
+                      const data = JSON.stringify(messages, null, 2);
+                      const blob = new Blob([data], { type: "application/json" });
+                      const url = URL.createObjectURL(blob);
+                      const a = document.createElement("a");
+                      a.href = url;
+                      a.download = `janseva-chat-${new Date().toISOString()}.json`;
+                      document.body.appendChild(a);
+                      a.click();
+                      a.remove();
+                      URL.revokeObjectURL(url);
+                    } catch (e) {
+                      toast.error("Failed to export conversation");
+                    }
+                  }}
+                  className="rounded-full border border-border bg-card px-3 py-1 text-foreground hover:border-primary"
+                >
+                  Export
+                </button>
               </div>
+              {helpMode === "library" && (
+                <div className="mt-2">
+                  <span className="inline-block text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium">
+                    Free — unlimited
+                  </span>
+                </div>
+              )}
               <p className="text-xs text-muted-foreground mt-2 max-w-xl">
                 {helpMode === "ai"
                   ? "Ask the AI for step-by-step civic assistance. If the gateway is unavailable, switch to the free Offline Library."
