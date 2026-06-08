@@ -16,6 +16,7 @@ The app combines:
 ## Key Features
 
 - **AI Civic Assistant**: Ask for help with RTI, welfare, legal aid, corruption reporting, and government services.
+- **Offline Civic Library**: Free, always-on guidance for common civic problems when AI is unavailable.
 - **Transparent Audit Log**: Every submission is recorded in a public ledger for verification.
 - **Anonymous by Default**: User identity is not stored unless explicitly provided.
 - **Multilingual Support**: Built to help users across regions and languages.
@@ -65,6 +66,8 @@ SUPABASE_PUBLISHABLE_KEY=<your-supabase-anon-key>
 AI_GATEWAY_API_KEY=<your-ai-gateway-key>
 # or
 LOVABLE_API_KEY=<your-ai-gateway-key>
+# Optional: override the AI model used by the gateway
+AI_MODEL=google/gemini-3-flash-preview
 ```
 
 ### Run Locally

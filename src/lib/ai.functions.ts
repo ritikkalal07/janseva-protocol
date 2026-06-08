@@ -47,34 +47,55 @@ const Input = z.object({
 export const civicAssist = createServerFn({ method: "POST" })
   .validator(Input)
   .handler(async ({ data }) => {
-    const key = process.env.LOVABLE_API_KEY ?? process.env.AI_GATEWAY_API_KEY;
-    if (!key) throw new Error("AI service unavailable");
-
-    const gateway = createAiGatewayProvider(key);
-    const model = gateway("google/gemini-3-flash-preview");
-
-    const messages = [
-      ...(data.history ?? []),
-      { role: "user" as const, content: data.message },
-    ];
-
     try {
-      const { experimental_output } = await generateText({
+      const key = process.env.LOVABLE_API_KEY ?? process.env.AI_GATEWAY_API_KEY;
+      if (!key) {
+        return { ok: false as const, error: "AI service unavailable. Missing API key." };
+      }
+
+      const gateway = createAiGatewayProvider(key);
+      const modelName = process.env.AI_MODEL?.trim() || "google/gemini-3-flash-preview";
+      const model = gateway(modelName);
+
+      const messages = [...(data.history ?? []), { role: "user" as const, content: data.message }];
+
+      const result = await generateText({
         model,
-        system: SYSTEM_PROMPT + (data.language ? `\nUser's preferred language: ${data.language}.` : ""),
+        system:
+          SYSTEM_PROMPT + (data.language ? `\nUser's preferred language: ${data.language}.` : ""),
         messages,
         experimental_output: Output.object({ schema: ResponseSchema }),
       });
-      return { ok: true as const, response: experimental_output };
+
+      const outputCandidate =
+        (result as { experimental_output?: unknown }).experimental_output ??
+        (result as { output?: unknown }).output;
+      const parsed = ResponseSchema.safeParse(outputCandidate);
+      if (!parsed.success) {
+        console.error("[civicAssist] invalid AI response format", parsed.error, {
+          rawOutput: outputCandidate,
+          fullResponse: result,
+        });
+        return {
+          ok: false as const,
+          error:
+            "AI returned an unexpected response. Please try again or switch to Offline Library.",
+        };
+      }
+
+      return { ok: true as const, response: parsed.data };
     } catch (e: unknown) {
-      const msg = e instanceof Error ? e.message : "Unknown error";
+      const msg = e instanceof Error ? e.message : String(e);
       if (msg.includes("429")) {
         return { ok: false as const, error: "Rate limit reached. Try again in a moment." };
       }
       if (msg.includes("402")) {
-        return { ok: false as const, error: "AI credits exhausted. Please add credits in workspace settings." };
+        return {
+          ok: false as const,
+          error: "AI credits exhausted. Please add credits in workspace settings.",
+        };
       }
       console.error("[civicAssist]", e);
-      return { ok: false as const, error: "AI service temporarily unavailable." };
+      return { ok: false as const, error: msg || "AI service temporarily unavailable." };
     }
   });
